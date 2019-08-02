@@ -13,18 +13,28 @@ var detectNetwork = function(cardNumber) {
   // The American Express network always starts with a 34 or 37 and is 15 digits long
 
   // Once you've read this, go ahead and try to implement this function, then return to the console.
-  const prefix = cardNumber.slice(0, 2);
+  const prefix1 = cardNumber.slice(0, 1);
+  const prefix2 = cardNumber.slice(0, 2);
+  const prefix3 = cardNumber.slice(0, 3);
+  const prefix4 = cardNumber.slice(0, 4);
+  const cardNumLength = cardNumber.length;
 
-  if ((prefix === '38' || prefix === '39') && cardNumber.length === 14) {
+  if ((prefix2 === '38' || prefix2 === '39') && cardNumLength === 14) {
     return "Diner's Club";
-  } else if ((prefix === '34' || prefix === '37') && cardNumber.length === 15) {
+  } else if ((prefix2 === '34' || prefix2 === '37') && cardNumLength === 15) {
     return "American Express";
-  } else if (prefix[0] === '4' && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)) {
+  } else if (prefix1 === '4' && (cardNumLength === 13 || cardNumLength === 16 || cardNumLength === 19)) {
     return "Visa";
-  } else if ((prefix === '51' || prefix === '52' || prefix === '53' || prefix === '54' || prefix === '55') && cardNumber.length === 16) {
+  } else if ((prefix2 === '51' || prefix2 === '52' || prefix2 === '53' || prefix2 === '54' || prefix2 === '55') && cardNumLength === 16) {
     return "MasterCard";
+  } else if ((prefix4 === '6011' || (prefix3 >= 644 && prefix3 <= 649) || prefix2 === '65') && (cardNumLength === 16 || cardNumLength === 19)) {
+    return "Discover";
+  } else if ((prefix4 === '5018' || prefix4 === '5020' || prefix4 === '5038' || prefix4 === '6304') && (cardNumLength >= 12 && cardNumLength <= 19)) {
+    return "Maestro";
   }
 };
 
 // Visa always has a prefix of 4 and a length of 13, 16, or 19.
 // MasterCard always has a prefix of 51, 52, 53, 54, or 55 and a length of 16.
+// Discover always has a prefix of 6011, 644-649, or 65, and a length of 16 or 19.
+// Maestro always has a prefix of 5018, 5020, 5038, or 6304, and a length of 12-19.
