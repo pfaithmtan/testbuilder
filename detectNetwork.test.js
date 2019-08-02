@@ -133,14 +133,46 @@ describe('MasterCard', function() {
   it('has a prefix of 55 and a length of 16', function() {
     expect(detectNetwork('5512345678901234')).to.equal('MasterCard');
   })
-
 });
 
 describe('Discover', function() {
   // Tests without a function will be marked as "pending" and not run
   // Implement these tests (and others) and make them pass!
-  it('has a prefix of 6011 and a length of 16');
-  it('has a prefix of 6011 and a length of 19');
+  const expect = chai.expect;
+
+  it('has a prefix of 6011 and a length of 16', function () {
+    expect(detectNetwork('6011123456789012')).to.equal('Discover');
+  });
+
+  it('has a prefix of 6011 and a length of 19', function () {
+    expect(detectNetwork('6011123456789012345')).to.equal('Discover');
+  });
+
+  // IIFE is needed
+  // Immediately Invoked Function Expression used to protect the scope of our function and the variables within it
+  // We want it so that our function cannot be accessed accidentally by our program
+  // We wrap our entire function in parentheses to create a function expression
+  // We then invoke the function by adding a pair of parentheses at the end (which includes parameters the function takes)
+  // IIFE runs as soon as it is defined
+  for (let prefix = 644; prefix <= 649; prefix++) {
+    (function(prefix) {
+      it('has a prefix of ' + prefix + ' and a length of 16', function () {
+        expect(detectNetwork(prefix + '1234567890123')).to.equal('Discover');
+      });
+
+      it('has a prefix of ' + prefix + ' and a length of 19', function () {
+        expect(detectNetwork(prefix + '1234567890123456')).to.equal('Discover');
+      });
+    })(prefix)
+  }
+
+  it('has a prefix of 65 and a length of 16', function () {
+    expect(detectNetwork('6512345678901234')).to.equal('Discover');
+  });
+
+  it('has a prefix of 65 and a length of 19', function () {
+    expect(detectNetwork('6512345678901234567')).to.equal('Discover');
+  });
 });
 
 describe('Maestro', function() {
