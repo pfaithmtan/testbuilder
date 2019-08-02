@@ -179,21 +179,23 @@ describe('Maestro', function() {
   // Write full test coverage for the Maestro card
   const expect = chai.expect;
 
-  // 5018, 5020, 5038, or 6304
   for (let len = 12; len <= 19; len++) {
     let suffix = '0';
 
     (function(len) {
-      it('has a prefix of 5018 and length of ' + len, function() {
+      it('has a prefix of 5018 and a length of ' + len, function() {
         expect(detectNetwork('50181234567' + suffix)).to.equal('Maestro');
       });
-      it('has a prefix of 5020 and length of ' + len, function() {
+
+      it('has a prefix of 5020 and a length of ' + len, function() {
         expect(detectNetwork('50201234567' + suffix)).to.equal('Maestro');
       });
-      it('has a prefix of 5038 and length of ' + len, function() {
+
+      it('has a prefix of 5038 and a length of ' + len, function() {
         expect(detectNetwork('50381234567' + suffix)).to.equal('Maestro');
       });
-      it('has a prefix of 6304 and length of ' + len, function() {
+
+      it('has a prefix of 6304 and a length of ' + len, function() {
         expect(detectNetwork('63041234567' + suffix)).to.equal('Maestro');
       });
     })(len)
@@ -202,3 +204,80 @@ describe('Maestro', function() {
   }
 });
 
+describe('China UnionPay', function () {
+  const expect = chai.expect;
+
+  for (let prefix = 624; prefix <= 626; prefix++) {
+    let suffix = '0';
+
+    for (let len = 16; len <= 19; len++) {
+      (function(prefix, len, suffix) {
+        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
+          expect(detectNetwork(prefix + '123456789012' + suffix)).to.equal('China UnionPay');
+
+        });
+      })(prefix, len, suffix)
+
+      suffix += 0;
+    }
+  }
+
+  for (let prefix = 6282; prefix <= 6288; prefix++) {
+    let suffix = '0';
+
+    for (let len = 16; len <= 19; len++) {
+      (function(prefix, len, suffix) {
+        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
+          expect(detectNetwork(prefix + '12345678901' + suffix)).to.equal('China UnionPay');
+        });
+      })(prefix, len, suffix)
+
+      suffix += 0;
+    }
+  }
+
+  for (let prefix = 622126; prefix <= 622925; prefix++) {
+    let suffix = '0';
+
+    for (let len = 16; len <= 19; len++) {
+      (function(prefix, len, suffix) {
+        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
+          expect(detectNetwork(prefix + '123456789' + suffix)).to.equal('China UnionPay');
+        });
+
+      })(prefix, len, suffix)
+
+      suffix += 0;
+    }
+  }
+});
+
+
+// detectNetwork('501812345678')
+// detectNetwork('50181234567890')
+// detectNetwork('501812345678901')
+// detectNetwork('5018123456789012')
+// detectNetwork('50181234567890123')
+// detectNetwork('501812345678901234')
+// detectNetwork('5018123456789012345')
+// detectNetwork('502012345678')
+// detectNetwork('50201234567890')
+// detectNetwork('502012345678901')
+// detectNetwork('5020123456789012')
+// detectNetwork('50201234567890123')
+// detectNetwork('502012345678901234')
+// detectNetwork('5020123456789012345')
+// detectNetwork('503812345678')
+// detectNetwork('50381234567890')
+// detectNetwork('503812345678901')
+// detectNetwork('5038123456789012')
+// detectNetwork('50381234567890123')
+// detectNetwork('503812345678901234')
+// detectNetwork('5038123456789012345')
+// detectNetwork('630412345678')
+// detectNetwork('63041234567890')
+// detectNetwork('630412345678901')
+// detectNetwork('6304123456789012')
+// detectNetwork('63041234567890123')
+// detectNetwork('630412345678901234')
+// detectNetwork('6304123456789012345')
