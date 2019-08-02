@@ -19,7 +19,12 @@ var detectNetwork = function(cardNumber) {
     return "Diner's Club";
   } else if ((prefix === '34' || prefix === '37') && cardNumber.length === 15) {
     return "American Express";
+  } else if (prefix[0] === '4' && (cardNumber.length === 13 || cardNumber.length === 16 || cardNumber.length === 19)) {
+    return "Visa";
+  } else if ((prefix === '51' || prefix === '52' || prefix === '53' || prefix === '54' || prefix === '55') && cardNumber.length === 16) {
+    return "MasterCard";
   }
 };
 
-
+// Visa always has a prefix of 4 and a length of 13, 16, or 19.
+// MasterCard always has a prefix of 51, 52, 53, 54, or 55 and a length of 16.
