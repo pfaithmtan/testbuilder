@@ -252,32 +252,36 @@ describe('China UnionPay', function () {
   }
 });
 
+describe('Switch', function() {
+  const expect = chai.expect;
+  const prefixes = [4903, 4905, 4911, 4936, 6333, 6759]; // 564182, 633110 individual cases
 
-// detectNetwork('501812345678')
-// detectNetwork('50181234567890')
-// detectNetwork('501812345678901')
-// detectNetwork('5018123456789012')
-// detectNetwork('50181234567890123')
-// detectNetwork('501812345678901234')
-// detectNetwork('5018123456789012345')
-// detectNetwork('502012345678')
-// detectNetwork('50201234567890')
-// detectNetwork('502012345678901')
-// detectNetwork('5020123456789012')
-// detectNetwork('50201234567890123')
-// detectNetwork('502012345678901234')
-// detectNetwork('5020123456789012345')
-// detectNetwork('503812345678')
-// detectNetwork('50381234567890')
-// detectNetwork('503812345678901')
-// detectNetwork('5038123456789012')
-// detectNetwork('50381234567890123')
-// detectNetwork('503812345678901234')
-// detectNetwork('5038123456789012345')
-// detectNetwork('630412345678')
-// detectNetwork('63041234567890')
-// detectNetwork('630412345678901')
-// detectNetwork('6304123456789012')
-// detectNetwork('63041234567890123')
-// detectNetwork('630412345678901234')
-// detectNetwork('6304123456789012345')
+  for (let i = 0; i < prefixes.length; i++) {
+    let suffix = '0';
+    let prefix = prefixes[i];
+
+    for (let len = 16; len <= 19; len++) {
+      if (len ===  17) {
+        suffix += 0;
+        continue;
+      }
+
+      (function(prefix, len, suffix) {
+        it('has a prefix of ' + prefix + ' and a length of ' + len, function() {
+          expect(detectNetwork(prefix + '12345678901' + suffix)).to.equal('Switch');
+        });
+
+        it('has a prefix of 564182 and a length of ' + len, function() {
+          expect(detectNetwork('564182123456789' + suffix)).to.equal('Switch');
+        });
+
+        it('has a prefix of 633110 and a length of ' + len, function() {
+          expect(detectNetwork('633110123456789' + suffix)).to.equal('Switch');
+        });
+      })(prefix, len, suffix)
+
+      suffix += 0;
+    }
+  }
+});
+
